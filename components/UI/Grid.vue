@@ -1,6 +1,6 @@
 <template>
     <div :class="{
-        container: container,
+        'grid-container': container,
         'grid-item': item,
         [`grid_${direction}`]: direction,
         [`xs-col-${xs}`]: xs,
@@ -8,8 +8,11 @@
         [`md-col-${md}`]: md,
         [`lg-col-${lg}`]: lg,
         [`spacing-${spacing}`]: spacing,
-        [`grid-grow`]: grow
-    }">
+        [`grid-grow`]: grow,
+        [`grid-${wrap}`]: wrap
+    }"
+    v-bind="$attrs"
+    v-on="$listeners">
         <slot/>
     </div>
 </template>
@@ -56,60 +59,76 @@ export default Vue.extend({
             type: Boolean,
             default: false
         },
+        wrap: <PropOptions<string>> {
+            type: String,
+            default: "wrap"
+        }
     }
 });
 
 </script>
 
 <style lang="scss">
-    .container {
+    .grid-container {
         display: flex;
-        flex-wrap: wrap;
         width: 100%;
+        overflow: hidden;
     }
-    .grid_row {
+    .grid-row {
         flex-direction: row;
     }
-    .grid_column {
+    .grid-column {
         flex-direction: column;
     }
-    .grid_row-reverse {
+    .grid-row-reverse {
         flex-direction: row-reverse;
     }
-    .grid_column-reverse {
+    .grid-column-reverse {
         flex-direction: column-reverse;
     }
     .grid-grow {
         flex-grow: 1;
     }
+    .grid-wrap {
+        flex-wrap: wrap;
+    }
+    .grid-no-wrap {
+        flex-wrap: nowrap;
+    }
+    .grid-wrap-reverse {
+        flex-wrap: wrap-reverse;
+    }
+    .grid-wrap-inherit {
+        flex-wrap: inherit;
+    }
 
     @for $s from 1 through 6 {
-        .container.spacing-#{$s} {
+        .grid-container.spacing-#{$s} {
             margin: -$s * 4px;
             width: calc(#{$s * 8px} + 100%);
         }
 
         // Sub Grid styling
-        .container.spacing-#{$s} > .container {
+        .grid-container.spacing-#{$s} > .grid-container {
             width: calc(100% + #{$s * 4px});
             margin: -$s * 4px;
         }
 
-        .container.spacing-#{$s} > .grid-item {
+        .grid-container.spacing-#{$s} > .grid-item {
             margin: $s * 4px;
         }
 
          // sizing and responsive layout
         @for $i from 1 through 12 {
             .xs-col-#{$i} {
-                width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 4px} );
+                width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
             }
         }
 
         @for $i from 1 through 12 {
                 @media(min-width: 400px) {
                 .sm-col-#{$i}{
-                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 4px} );
+                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
                 }
             }
         }
@@ -118,7 +137,7 @@ export default Vue.extend({
         @for $i from 1 through 12 {
                 @media(min-width: 800px) {
                 .md-col-#{$i} {
-                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 4px} );
+                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
                 }
             }
         }
@@ -126,7 +145,7 @@ export default Vue.extend({
         @for $i from 1 through 12 {
             @media(min-width: 1200px) {
                 .lg-col-#{$i} {
-                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 4px} );
+                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
                 }
             }
         }

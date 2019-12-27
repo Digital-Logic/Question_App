@@ -1,11 +1,26 @@
 <template>
-    <ul class="root">
+    <ul class="list-root">
         <slot />
     </ul>
 </template>
 
-<style lang="scss">
-    .root {
+<script lang="ts">
+    import Vue, { PropOptions } from "vue";
 
+    export default Vue.extend({
+        props: {
+            spacing:<PropOptions<number>> {
+                type: Number,
+                default: 0
+            }
+        }
+    });
+</script>
+
+<style lang="scss">
+    .list-root {
+        list-style: none;
+        margin: 0;
+        padding: 15px;
     }
 </style>

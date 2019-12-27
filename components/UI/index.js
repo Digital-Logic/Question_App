@@ -1,3 +1,4 @@
-export { default as Grid } from "./Grid";
-export { default as List } from "./List";
-export { default as ListItem} from "./ListItem";
+export { default as Grid } from "./Grid.vue";
+export { default as List } from "./List.vue";
+export { default as ListItem} from "./ListItem.vue";
+export {default as Paper } from "./Paper.vue";

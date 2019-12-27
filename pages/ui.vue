@@ -4,6 +4,7 @@
             item
             :xs="12"
             class="item">item xs="12"</Grid>
+
         <Grid container :spacing="2" style="margin: 0">
             <Grid
                 item
@@ -32,7 +33,7 @@ export default Vue.extend({
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .root {
     padding: 20px;
 }
