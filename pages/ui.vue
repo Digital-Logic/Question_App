@@ -7,9 +7,12 @@
         <Grid container :spacing="2" style="margin: 0">
             <Grid
                 item
-                :xs="4"
+                :xs="12"
+                :sm="6"
+                :md="4"
+                :lg="3"
                 class="item"
-                v-for="n in 3"
+                v-for="n in 8"
                 :key="n">{{ n }} xs=4</Grid>
         </Grid>
     </Grid>
