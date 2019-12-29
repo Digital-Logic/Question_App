@@ -1,5 +1,6 @@
 <template>
-    <div class="paper-root"
+    <component :is="component"
+        class="paper-root"
         :class="{
             [`paper-elevation-${elevation}`]: elevation,
             [`paper-border-radius`]: radius
@@ -7,7 +8,7 @@
         v-bind="$attrs"
         v-on="$listeners">
         <slot />
-    </div>
+    </component>
 </template>
 
 <script lang="ts">
@@ -21,6 +22,9 @@ export default Vue.extend({
         radius: <PropOptions<boolean>> {
             type: Boolean,
             default: true
+        },
+        component: {
+            default: "div"
         }
     }
 });
@@ -29,8 +33,10 @@ export default Vue.extend({
 <style lang="scss">
 
 .paper-root {
+    display: block;
     border: 1px solid gray;
     padding: 5px;
+    color: #333;
 }
 .paper-border-radius {
     border-radius: 4px;

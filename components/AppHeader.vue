@@ -6,7 +6,9 @@
                 <h1>Question and Answer App</h1>
             </Grid>
             <Grid item>
-                <nuxt-link to="/">Quesitons</nuxt-link>
+                <Button
+                    component="nuxt-link"
+                    to="/">Questions</Button>
             </Grid>
         </Grid>
     </Paper>
@@ -14,12 +16,13 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
-import { Grid, Paper } from './UI';
+import { Grid, Paper, Button } from './UI';
 
 export default Vue.extend({
     components: {
         Grid,
-        Paper
+        Paper,
+        Button
     }
 });
 </script>

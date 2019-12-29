@@ -1,7 +1,9 @@
 <template>
     <ListItem class="listItem">
         <Paper class="paper"
-            v-on:click="navigateToRoute">
+            component="a"
+            :href="`question/${question.id}`"
+            v-on:click.prevent="navigateToRoute">
             <Grid container :spacing="2" direction="column">
                 <Grid container :spacing="2" direction="row">
                     <Grid item grow>
@@ -12,9 +14,19 @@
                     </Grid>
                 </Grid>
 
-                <Grid container :spacing="2" direction="row">
-                    <Grid item>
+                <Grid container :spacing="2">
+                    <Grid item grow>
                         {{ topAnswer }}
+                    </Grid>
+
+                    <Grid item container :spacing="2" wrap="no-wrap">
+                        <Tag
+                            class="tag"
+                            v-for="tag in question.tags"
+                            :key="tag"
+                            :text="tag"
+                            v-on:click.prevent.stop="filterTag"
+                        />
                     </Grid>
                 </Grid>
             </Grid>
@@ -24,7 +36,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
-import { ListItem, Grid, Paper } from './UI';
+import { ListItem, Grid, Paper, Tag } from './UI';
 import { Question, Answer } from "~/store/questions";
 
 export default Vue.extend({
@@ -36,7 +48,8 @@ export default Vue.extend({
     components: {
         ListItem,
         Grid,
-        Paper
+        Paper,
+        Tag
     },
     computed: {
         topAnswer() {
@@ -56,6 +69,9 @@ export default Vue.extend({
             this.$router.push({
                 path: `/question/${this.$props.question.id}`
             })
+        },
+        filterTag(event: MouseEvent) {
+            console.log(event);
         }
     }
 });
@@ -69,5 +85,15 @@ export default Vue.extend({
     .paper {
         padding: 15px;
         cursor: pointer;
+    }
+    .tag {
+        transition: background-color 0.3s;
+        background-color: transparent;
+        &:hover {
+            background-color: gray;
+        }
+        &:click {
+            background-color: gray;
+        }
     }
 </style>

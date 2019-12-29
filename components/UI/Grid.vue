@@ -150,16 +150,17 @@ export default Vue.extend({
             width: calc(100% + #{$s * 4px});
             margin: 0;
         }
+        .grid-container.spacing-#{$s} > .grid-container.grid-item {
+            width: auto;
+            margin: 0;
+        }
 
 
         // add margin to direct descendants of a grid container
-        .grid-container.spacing-#{$s} > .grid-item {
-            margin: $s * 4px;
-        }
-        .grid-container.spacing-#{$s} > .button-root {
-            margin: $s * 4px;
-        }
-        .grid-container.spacing-#{$s} > .list-root {
+        .grid-container.spacing-#{$s} > .grid-item,
+        .grid-container.spacing-#{$s} > .button-root,
+        .grid-container.spacing-#{$s} > .list-root,
+        .grid-container.spacing-#{$s} > .tag-root {
             margin: $s * 4px;
         }
 

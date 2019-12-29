@@ -30,9 +30,6 @@ export default Vue.extend({
         text: <PropOptions<"none" | "uppercase" | "capitalize">>{
             type: String,
             default: "uppercase"
-        },
-        type: {
-            type: String
         }
     }
 });
