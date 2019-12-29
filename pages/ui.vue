@@ -5,7 +5,7 @@
             :xs="12"
             class="item">item xs="12"</Grid>
 
-        <Grid container :spacing="2" style="margin: 0">
+        <Grid container :spacing="2">
             <Grid
                 item
                 :xs="12"
@@ -16,18 +16,24 @@
                 v-for="n in 8"
                 :key="n">{{ n }} xs=4</Grid>
         </Grid>
+        <Grid container :spacing="2">
+            <Button variant="outlined">Outlined</Button>
+            <Button text="capitalize">Hello World</Button>
+            <Button variant="contained">Contained</Button>
+        </Grid>
     </Grid>
 </template>
 
 <script lang="ts">
-import { Grid, List, ListItem } from '../components/UI';
+import { Grid, List, ListItem, Button } from '../components/UI';
 import Vue, { PropOptions } from 'vue';
 
 export default Vue.extend({
     components: {
         Grid,
         List,
-        ListItem
+        ListItem,
+        Button
     }
 });
 

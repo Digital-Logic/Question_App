@@ -2,7 +2,7 @@
     <div class="paper-root"
         :class="{
             [`paper-elevation-${elevation}`]: elevation,
-            [`paper-border-radius`]: borderRadius
+            [`paper-border-radius`]: radius
         }">
         <slot />
     </div>

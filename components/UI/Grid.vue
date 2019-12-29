@@ -9,7 +9,9 @@
         [`lg-col-${lg}`]: lg,
         [`spacing-${spacing}`]: spacing,
         [`grid-grow`]: grow,
-        [`grid-${wrap}`]: wrap
+        [`grid-${wrap}`]: wrap,
+        [`grid-justify-${justify}`]: justify,
+        [`grid-align-items-${align}`]: align
     }"
     v-bind="$attrs"
     v-on="$listeners">
@@ -19,6 +21,7 @@
 
 <script lang="ts">
 import Vue, {PropOptions} from 'vue';
+import { Prop } from 'vue/types/options';
 
 export type Direction = "row" | "column" | "row-reverse" | "column-reverse";
 
@@ -51,7 +54,7 @@ export default Vue.extend({
         spacing: <PropOptions<number>> {
             default: 0
         },
-        direction: <PropOptions<Direction>> {
+        direction: <PropOptions<"row" | "column" | "row-reverse" | "column-reverse">> {
             type: String,
             default: "row"
         },
@@ -59,9 +62,17 @@ export default Vue.extend({
             type: Boolean,
             default: false
         },
-        wrap: <PropOptions<string>> {
+        wrap: <PropOptions<"wrap" | "no-wrap" | "wrap-reverse" | "inhert">> {
             type: String,
             default: "wrap"
+        },
+        justify: <PropOptions<"start" | "end" | "center" | "space-between" | "space-around">> {
+            type: String,
+            default: "start"
+        },
+        align: <PropOptions<"start" | "center" | "end" | "stretch">> {
+            type: String,
+            default: "start"
         }
     }
 });
@@ -72,7 +83,6 @@ export default Vue.extend({
     .grid-container {
         display: flex;
         width: 100%;
-        overflow: hidden;
     }
     .grid-row {
         flex-direction: row;
@@ -101,6 +111,33 @@ export default Vue.extend({
     .grid-wrap-inherit {
         flex-wrap: inherit;
     }
+    .grid-justify-center {
+        justify-content: center;
+    }
+    .grid-justify-start {
+        justify-content: flex-start;
+    }
+    .grid-justify-end {
+        justify-content: flex-end;
+    }
+    .grid-justify-space-between {
+        justify-content: space-between;
+    }
+    .grid-justify-space-around {
+        justify-content: space-around;
+    }
+    .grid-align-items-center {
+        align-items: center;
+    }
+    .grid-align-items-strech {
+        align-items: stretch;
+    }
+    .grid-align-items-start {
+        align-items: start;
+    }
+    .grid-align-items-end {
+        align-items: end;
+    }
 
     @for $s from 1 through 6 {
         .grid-container.spacing-#{$s} {
@@ -111,24 +148,34 @@ export default Vue.extend({
         // Sub Grid styling
         .grid-container.spacing-#{$s} > .grid-container {
             width: calc(100% + #{$s * 4px});
-            margin: -$s * 4px;
+            margin: 0;
         }
 
+
+        // add margin to direct descendants of a grid container
         .grid-container.spacing-#{$s} > .grid-item {
             margin: $s * 4px;
         }
+        .grid-container.spacing-#{$s} > .button-root {
+            margin: $s * 4px;
+        }
+        .grid-container.spacing-#{$s} > .list-root {
+            margin: $s * 4px;
+        }
 
-         // sizing and responsive layout
+
+        // sizing and responsive layout
+        // .xs-col-12, .xs-col-6, .xs-col-1
         @for $i from 1 through 12 {
-            .xs-col-#{$i} {
-                width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
+            .spacing-#{$s} > .xs-col-#{$i} {
+                width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 8px} );
             }
         }
 
         @for $i from 1 through 12 {
                 @media(min-width: 400px) {
-                .sm-col-#{$i}{
-                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
+                .spacing-#{$s} > .sm-col-#{$i}{
+                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 8px} );
                 }
             }
         }
@@ -136,8 +183,8 @@ export default Vue.extend({
 
         @for $i from 1 through 12 {
                 @media(min-width: 800px) {
-                .md-col-#{$i} {
-                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
+                .spacing-#{$s} > .md-col-#{$i} {
+                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 8px} );
                 }
             }
         }
@@ -145,7 +192,7 @@ export default Vue.extend({
         @for $i from 1 through 12 {
             @media(min-width: 1200px) {
                 .lg-col-#{$i} {
-                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 3px} );
+                    width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 8px} );
                 }
             }
         }

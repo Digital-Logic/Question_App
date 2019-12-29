@@ -1,5 +1,7 @@
 <template>
-    <li class="list-item-root">
+    <li class="list-item-root"
+        v-bind="$attrs"
+        v-on="$listeners">
         <slot/>
     </li>
 </template>
