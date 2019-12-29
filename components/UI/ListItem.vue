@@ -6,10 +6,18 @@
     </li>
 </template>
 
+<script lang="tc">
+import Vue, { PropOptions } from 'vue';
+export default Vue.extend({
+    props: {
+
+    }
+});
+</script>
+
 <style lang="scss">
     .list-item-root {
-        border: 1px solid lightgray;
         padding: 10px;
-        cursor: default;
     }
+
 </style>

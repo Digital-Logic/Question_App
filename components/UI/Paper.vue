@@ -3,7 +3,9 @@
         :class="{
             [`paper-elevation-${elevation}`]: elevation,
             [`paper-border-radius`]: radius
-        }">
+        }"
+        v-bind="$attrs"
+        v-on="$listeners">
         <slot />
     </div>
 </template>

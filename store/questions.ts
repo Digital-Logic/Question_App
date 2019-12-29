@@ -23,16 +23,18 @@ export const state = ():Questions => ({});
 export type QuestionsState = ReturnType<typeof state>;
 
 export const getters:GetterTree<QuestionsState, RootState> = {
-    questions(state) {
-        return state;
-    }
+    questions: state => (filter: string | string[] | undefined) => {
+        // no filter provide
+        if (filter == undefined) {
+            return state;
+        }
+    },
+    answers: state => (questionId:number) => state[questionId].answers
 };
 
 export const mutations:MutationTree<QuestionsState> = {
     ADD(state, question: Question) {
-        if (!state[question.id]) {
-            state[question.id] = question;
-        }
+        state[question.id] = question;
     }
 };
 
@@ -41,10 +43,22 @@ export const actions:ActionTree<QuestionsState, RootState> = {
         return this.$axios.get<Question[]>("/api/questions")
             .then(({ data }) => {
                 data.forEach(question => {
-                    commit("ADD", question);
+
+                    // presort answers before storing into state
+                    commit("ADD", {
+                        ...question,
+                        answers: sortAnswers(question.answers || [])
+                    });
                 })
             }).catch(error => {
                 console.log(error);
             });
     }
 };
+
+
+function sortAnswers(answers: Answer[]): Answer[] {
+    return answers.sort(
+        (answerA, answerB) => answerB.rank - answerA.rank
+    );
+}

@@ -1,7 +1,10 @@
 <template>
     <Grid>
         <List>
-
+            <Question
+                v-for="question in questions()"
+                :question="question"
+                :key="question.id" />
         </List>
     </Grid>
 </template>
@@ -20,14 +23,16 @@ export default Vue.extend({
         Question
     },
     computed: {
-        ...mapGetters({
-            questions: "questions/questions"
-        })
+        questions() {
+            return  (filter: string | string[] | undefined) => {
+                return this.$store.getters['questions/questions'](filter);
+            };
+        }
     }
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 
 </style>
