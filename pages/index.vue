@@ -2,7 +2,7 @@
     <Grid>
         <List>
             <Question
-                v-for="question in questions()"
+                v-for="question of questions"
                 :question="question"
                 :key="question.id" />
         </List>
@@ -24,9 +24,7 @@ export default Vue.extend({
     },
     computed: {
         questions() {
-            return  (filter: string | string[] | undefined) => {
-                return this.$store.getters['questions/questions'](filter);
-            };
+            return this.$store.getters['questions/questions'];
         }
     }
 });

@@ -14,7 +14,7 @@
                     </Grid>
                 </Grid>
 
-                <Grid container :spacing="2">
+                <Grid container :spacing="2" align="center">
                     <Grid item grow>
                         {{ topAnswer }}
                     </Grid>
@@ -24,8 +24,8 @@
                             class="tag"
                             v-for="tag in question.tags"
                             :key="tag"
-                            :text="tag"
-                            v-on:click.prevent.stop="filterTag"
+                            :label="tag"
+                            v-on:click.prevent.stop="() => filterTag(tag)"
                         />
                     </Grid>
                 </Grid>
@@ -70,8 +70,8 @@ export default Vue.extend({
                 path: `/question/${this.$props.question.id}`
             })
         },
-        filterTag(event: MouseEvent) {
-            console.log(event);
+        filterTag(tag: string) {
+            this.$store.commit("questions/ADD_TAG", tag);
         }
     }
 });
@@ -90,10 +90,10 @@ export default Vue.extend({
         transition: background-color 0.3s;
         background-color: transparent;
         &:hover {
-            background-color: gray;
+            background-color: rgb(224, 224, 224);
         }
-        &:click {
-            background-color: gray;
+        &:active {
+            background-color: rgb(194, 194, 194);
         }
     }
 </style>

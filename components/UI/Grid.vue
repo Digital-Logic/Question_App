@@ -2,7 +2,7 @@
     <div :class="{
         'grid-container': container,
         'grid-item': item,
-        [`grid_${direction}`]: direction,
+        [`grid-${direction}`]: direction,
         [`xs-col-${xs}`]: xs,
         [`sm-col-${sm}`]: sm,
         [`md-col-${md}`]: md,
@@ -160,7 +160,9 @@ export default Vue.extend({
         .grid-container.spacing-#{$s} > .grid-item,
         .grid-container.spacing-#{$s} > .button-root,
         .grid-container.spacing-#{$s} > .list-root,
-        .grid-container.spacing-#{$s} > .tag-root {
+        .grid-container.spacing-#{$s} > .tag-root,
+        .grid-container.spacing-#{$s} > p,
+        .grid-container.spacing-#{$s} > span {
             margin: $s * 4px;
         }
 

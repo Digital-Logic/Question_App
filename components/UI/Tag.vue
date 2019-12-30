@@ -6,7 +6,7 @@
         class="tag-root"
         v-bind="$attrs"
         v-on="$listeners">
-        <span class="tag-label">{{ text }}</span>
+        <span class="tag-label">{{ label }}</span>
     </div>
 </template>
 
@@ -14,7 +14,7 @@
 import Vue, { PropOptions } from 'vue';
 export default Vue.extend({
     props: {
-        text: <PropOptions<string>> {
+        label: <PropOptions<string>> {
             type: String,
             required: true
         },
