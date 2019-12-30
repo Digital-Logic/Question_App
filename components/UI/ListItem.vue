@@ -1,16 +1,22 @@
 <template>
     <li class="list-item-root"
+        :class="{
+            [`list-item-variant-${variant}`]: variant
+        }"
         v-bind="$attrs"
         v-on="$listeners">
         <slot/>
     </li>
 </template>
 
-<script lang="tc">
+<script lang="ts">
 import Vue, { PropOptions } from 'vue';
 export default Vue.extend({
     props: {
-
+        variant: <PropOptions<"outlined">> {
+            type: String,
+            required: false
+        }
     }
 });
 </script>
@@ -20,4 +26,7 @@ export default Vue.extend({
         padding: 10px;
     }
 
+    .list-item-variant-outlined {
+        border: 1px solid gray;
+    }
 </style>

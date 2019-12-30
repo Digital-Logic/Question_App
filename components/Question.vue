@@ -1,9 +1,8 @@
 <template>
-    <ListItem class="listItem">
+    <Grid>
         <Paper class="paper"
-            component="a"
-            :href="`question/${question.id}`"
-            v-on:click.prevent="navigateToRoute">
+            v-bind="$attrs"
+            v-on="$listeners">
             <Grid container :spacing="2" direction="column">
                 <Grid container :spacing="2" direction="row">
                     <Grid item grow>
@@ -19,7 +18,7 @@
                         {{ topAnswer }}
                     </Grid>
 
-                    <Grid item container :spacing="2" wrap="no-wrap">
+                    <Grid item container wrap="no-wrap">
                         <Tag
                             class="tag"
                             v-for="tag in question.tags"
@@ -31,12 +30,35 @@
                 </Grid>
             </Grid>
         </Paper>
-    </ListItem>
+
+        <Grid v-if="this.$route.path != '/'">
+
+            <h3 class="subheading">Other Answers</h3>
+
+            <Paper class="answers">
+                <List>
+                    <ListItem
+                        class="listItem"
+                        v-for="(answer, index) of answers"
+                        :key="index">
+                        <Grid container :spacing="2">
+                            <Grid item grow>
+                                <span>{{ answer.answer }}</span>
+                            </Grid>
+                            <span>Rank: {{ answer.rank }}</span>
+                        </Grid>
+                    </ListItem>
+                </List>
+
+                <h5>Add answer form goes here...</h5>
+            </Paper>
+        </Grid>
+    </Grid>
 </template>
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
-import { ListItem, Grid, Paper, Tag } from './UI';
+import { Grid, Paper, Tag, List, ListItem } from './UI';
 import { Question, Answer } from "~/store/questions";
 
 export default Vue.extend({
@@ -46,10 +68,11 @@ export default Vue.extend({
         }
     },
     components: {
-        ListItem,
         Grid,
         Paper,
-        Tag
+        Tag,
+        List,
+        ListItem
     },
     computed: {
         topAnswer() {
@@ -61,15 +84,10 @@ export default Vue.extend({
             }
         },
         answers() {
-            return this.$props.question.answers;
+            return this.$props.question.answers.slice(1);
         }
     },
     methods: {
-        navigateToRoute() {
-            this.$router.push({
-                path: `/question/${this.$props.question.id}`
-            })
-        },
         filterTag(tag: string) {
             this.$store.commit("questions/ADD_TAG", tag);
         }
@@ -79,9 +97,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-    .listItem {
-        padding: 5px;
-    }
     .paper {
         padding: 15px;
         cursor: pointer;
@@ -89,11 +104,24 @@ export default Vue.extend({
     .tag {
         transition: background-color 0.3s;
         background-color: transparent;
+        margin-left: 10px;
         &:hover {
             background-color: rgb(224, 224, 224);
         }
         &:active {
             background-color: rgb(194, 194, 194);
         }
+    }
+    .subheading {
+        margin-top: 30px;
+    }
+    .listItem {
+        border-bottom: 1px solid rgb(212, 212, 212);
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    .answers {
+        margin-top: 20px;
     }
 </style>

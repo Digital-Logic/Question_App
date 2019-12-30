@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue';
 import { GetterTree, ActionTree, MutationTree } from "vuex";
 import { RootState } from "~/store";
 
@@ -6,6 +6,11 @@ export type Answer = {
     id: number;
     answer: string;
     rank: number;
+}
+
+interface NewAnswer {
+    questionId: number;
+    answer: Answer;
 }
 
 export type Question = {
@@ -41,12 +46,22 @@ export const getters:GetterTree<QuestionsState, RootState> = {
                 return result;
             }, true));
     },
+    question: state => (id:number) => {
+        return state.questions[id];
+    },
     answers: state => (questionId:number) => state.questions[questionId].answers,
 };
 
 export const mutations:MutationTree<QuestionsState> = {
     ADD(state, question: Question) {
         state.questions[question.id] = question;
+    },
+    ADD_ANSWER(state, {questionId, answer }) {
+        // push new answer on `question.answer` array, and sort it
+        const question:Question = state.questions[questionId];
+        Vue.set(state.questions[questionId], "answers",
+            sortAnswers([...question.answers, answer])
+        );
     },
     ADD_TAG(state, tag: string) {
         if (!state.filters.tags.includes(tag)) {
@@ -61,7 +76,7 @@ export const mutations:MutationTree<QuestionsState> = {
 
 export const actions:ActionTree<QuestionsState, RootState> = {
     fetchQuestions({ commit }) {
-        return this.$axios.get<Question[]>("/api/questions")
+        return this.$axios.get<Question[]>(`/api/questions`)
             .then(({ data }) => {
                 data.forEach(question => {
 
@@ -71,8 +86,30 @@ export const actions:ActionTree<QuestionsState, RootState> = {
                         answers: sortAnswers(question.answers || []),
                         tags: question.tags || []
                     });
-                })
+                });
             }).catch(error => {
+                console.log(error);
+            });
+    },
+    addQuestion({commit}, question: { question: string, slug?: string, tags?: string[] }) {
+        return this.$axios.post<Question>(`/api/questions`, question)
+            .then(({ data }) => {
+                commit("ADD", {
+                    ...data,
+                    answers: sortAnswers(data.answers || []),
+                    tags: data.tags || []
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    addAnswer({ commit }, answer: { questionId:number, answer: string }) {
+        return this.$axios.post<NewAnswer>(`/api/questions/${answer.questionId}`)
+            .then(({ data }) => {
+                commit("ADD_ANSWER", data);
+            })
+            .catch( error => {
                 console.log(error);
             });
     }

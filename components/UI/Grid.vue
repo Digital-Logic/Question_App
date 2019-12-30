@@ -147,12 +147,12 @@ export default Vue.extend({
 
         // Sub Grid styling
         .grid-container.spacing-#{$s} > .grid-container {
-            width: calc(100% + #{$s * 4px});
-            margin: 0;
+            width: calc(100% + #{$s * 8px});
+            padding: $s * 4px;
         }
         .grid-container.spacing-#{$s} > .grid-container.grid-item {
             width: auto;
-            margin: 0;
+            padding: $s * 2px;
         }
 
 
@@ -194,7 +194,7 @@ export default Vue.extend({
 
         @for $i from 1 through 12 {
             @media(min-width: 1200px) {
-                .lg-col-#{$i} {
+                .spacing-#{$s} > .lg-col-#{$i} {
                     width: calc(#{(100 / (12 / $i) * 1%)} - #{$s * 8px} );
                 }
             }

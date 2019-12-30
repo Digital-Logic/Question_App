@@ -1,6 +1,8 @@
-# QuestionAndAnswer
+# Question_App
 
-> My epic Nuxt.js project
+Simple question, answer billboard built with Nuxt.js. Currently this project is missing quit a few features, Notable, submission forms. The reason for this is that Nuxt server middleware seams limited a creating rest api, and I choose not to add a detected express server at this time.
+
+Uses custom build Grid system, and UI components. /ui route will display a basic response grid layout.
 
 ## Build Setup
 

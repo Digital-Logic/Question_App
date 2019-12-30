@@ -34,7 +34,7 @@ export default Vue.extend({
 
 .paper-root {
     display: block;
-    border: 1px solid gray;
+    border: 1px solid rgb(170, 170, 170);
     padding: 5px;
     color: #333;
 }
