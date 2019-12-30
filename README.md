@@ -1,8 +1,8 @@
 # Question_App
 
-Simple question, answer billboard built with Nuxt.js. Currently this project is missing quit a few features, Notable, submission forms. The reason for this is that Nuxt server middleware seams limited a creating rest api, and I choose not to add a detected express server at this time.
+Simple question, answer billboard built with Nuxt.js. It uses a custom build responsive grid layout solution, viewable at /ui route. The /components/ui forlder contains all of the general UI components. 
 
-Uses custom build Grid system, and UI components. /ui route will display a basic response grid layout.
+I did not fully implement question/answer submission, the vuex store has the actions and mutations to preform these actions, but I did not want to implement a detected express server to provide the required api end-points. It does use a simple server-middleware to get the list of questions on initialization.
 
 ## Build Setup
 
